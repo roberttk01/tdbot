@@ -7,8 +7,12 @@ import json
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
-# Initialize the Discord client
-client = discord.Client()
+# Set up intents
+intents = discord.Intents.default()  # This will enable default intents
+intents.message_content = True  # Enable the message_content intent (for reading messages)
+
+# Initialize the Discord client with intents
+client = discord.Client(intents=intents)
 
 # Initialize OpenAI API
 openai.api_key = config['openai_api_key']
@@ -40,7 +44,7 @@ async def on_message(message):
         prompt = message.content[len('!askchatgpt '):]
         if prompt:
             response = openai.Completion.create(
-                model="gpt-4",  # Use GPT-4 or GPT-3.5 depending on your access
+                model="gpt-3.5",  # Use GPT-4 or GPT-3.5 depending on your access
                 prompt=prompt,
                 max_tokens=50
             )
