@@ -2,6 +2,10 @@ import discord
 import openai
 import random
 import json
+import logging
+
+# Set up logging to see connection issues
+logging.basicConfig(level=logging.INFO)
 
 # Load configuration from file
 with open('config.json', 'r') as config_file:
@@ -15,16 +19,13 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 openai.api_key = config['openai_api_key']
 
-
 # Load truth and dare data
 def load_data():
     with open('questions.json', 'r') as f:
         data = json.load(f)
     return data['truths'], data['dares']
 
-
 truths, dares = load_data()
-
 
 # Function to create the embed
 def create_embed(user, title, description, question_type, question_id, value):
@@ -42,7 +43,6 @@ def create_embed(user, title, description, question_type, question_id, value):
     embed.set_author(name=f"Requested by {user.name}", icon_url=user.avatar.url)  # Use user for author
     return embed
 
-
 # Function to create buttons
 def create_buttons():
     buttons = discord.ui.View()
@@ -56,6 +56,16 @@ def create_buttons():
 async def on_ready():
     print(f'We have logged in as {client.user}')
 
+# Handle disconnection
+@client.event
+async def on_disconnect():
+    logging.warning(f"{client.user} has disconnected. Attempting to reconnect...")
+
+# Handle any errors that might occur during the bot's operation
+@client.event
+async def on_error(event, *args, **kwargs):
+    logging.error(f"Error occurred in event {event}: {args}, {kwargs}")
+    # You can also add specific error handling logic depending on the event
 
 @client.event
 async def on_message(message):
