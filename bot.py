@@ -6,7 +6,7 @@ import json
 
 # # Set up logging to see connection issues
 # logging.basicConfig(level=logging.INFO)
-## Testing Github Commit... again
+## Testing Github Commit... one more time
 
 # Load configuration from file
 with open('config.json', 'r') as config_file:
