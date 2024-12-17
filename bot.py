@@ -2,10 +2,10 @@ import discord
 import openai
 import random
 import json
-import logging
+#import logging
 
-# Set up logging to see connection issues
-logging.basicConfig(level=logging.INFO)
+# # Set up logging to see connection issues
+# logging.basicConfig(level=logging.INFO)
 
 # Load configuration from file
 with open('config.json', 'r') as config_file:
@@ -57,15 +57,17 @@ async def on_ready():
     print(f'We have logged in as {client.user}')
 
 # Handle disconnection
-@client.event
-async def on_disconnect():
-    logging.warning(f"{client.user} has disconnected. Attempting to reconnect...")
+# @client.event
+# async def on_disconnect():
+#     logging.warning(f"{client.user} has disconnected. Attempting to reconnect...")
+#
+# # Handle any errors that might occur during the bot's operation
 
-# Handle any errors that might occur during the bot's operation
-@client.event
-async def on_error(event, *args, **kwargs):
-    logging.error(f"Error occurred in event {event}: {args}, {kwargs}")
-    # You can also add specific error handling logic depending on the event
+
+# @client.event
+# async def on_error(event, *args, **kwargs):
+#     logging.error(f"Error occurred in event {event}: {args}, {kwargs}")
+#     # You can also add specific error handling logic depending on the event
 
 @client.event
 async def on_message(message):
@@ -100,7 +102,7 @@ async def on_message(message):
 
     # /gptruth Command
     elif message.content.lower().startswith('/gptruth'):
-        prompt = ("Generate a fun, insightful truth question for a truth or dare game. "
+        prompt = ("Generate a highly personal, fun, insightful truth question for a truth or dare game. "
                   "The question can be deep, funny, serious, risqué, or thought-provoking, "
                   "but it must be original and engaging. Please output the question in English, French, "
                   "Spanish, Swedish, Ukrainian and Vietnamese")
@@ -164,7 +166,7 @@ async def on_interaction(interaction):
 
             elif custom_id == "gptruth":
                 # Generate a new truth question using GPT-4
-                prompt = ("Generate a fun, insightful truth question for a truth or dare game. "
+                prompt = ("Generate a highly personal, fun, insightful truth question for a truth or dare game. "
                           "The question can be deep, funny, serious, risqué, or thought-provoking, "
                           "but it must be original and engaging. Please output the question in English, French, "
                           "Spanish, Swedish, Ukrainian, and Vietnamese.")
